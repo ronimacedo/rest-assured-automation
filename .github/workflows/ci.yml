@@ -1,3 +1,11 @@
+name: Run tests
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
 jobs:
   run-tests:
     runs-on: ubuntu-latest
@@ -19,4 +27,3 @@ jobs:
       - name: Build and run tests
         run: |
           mvn -Dtest=TesteBasico test
-
