@@ -1,6 +1,6 @@
 package utils
 
-class Utils {
+object Utils {
     fun readJsonFromResources(fileName: String): String {
         return object {}.javaClass.classLoader
             .getResource(fileName)
