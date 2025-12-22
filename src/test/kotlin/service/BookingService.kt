@@ -1,26 +1,18 @@
 package service
 
-import test.BookingTest
-import io.restassured.RestAssured
+
 import io.restassured.RestAssured.given
 import io.restassured.RestAssured.`when`
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.greaterThan
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.notNullValue
+import utils.Utils
 
-class BookingService {
-    private val BASE_URL = "https://restful-booker.herokuapp.com"
-
-    fun readJsonFromResources(fileName: String): String {
-        return object {}.javaClass.classLoader
-            .getResource(fileName)
-            ?.readText()
-            ?: throw IllegalArgumentException("Arquivo não encontrado: $fileName")
-    }
+class BookingService: BaseService() {
+    private val utils = Utils()
 
     fun GetBooking() {
-        RestAssured.baseURI = BASE_URL
         given()
             .header("Accept", "*/*")
             .`when`()
@@ -31,7 +23,6 @@ class BookingService {
     }
 
     fun getBookingWithId(id: String) {
-        RestAssured.baseURI = BASE_URL
         `when`()
             .get("/booking/${id}")
             .then()
@@ -46,11 +37,10 @@ class BookingService {
     }
 
     fun postBooking() {
-        RestAssured.baseURI = BASE_URL
         given()
             .header("Content-Type", "application/json")
             .header("Accept", "application/json")
-            .body(readJsonFromResources("payloads/booking.json"))
+            .body(utils.readJsonFromResources("payloads/booking.json"))
             .`when`()
             .post("/booking")
             .then()
