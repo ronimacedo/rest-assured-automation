@@ -1,12 +1,16 @@
+package service
 
-
-import io.restassured.RestAssured.*
+import test.BookingTest
+import io.restassured.RestAssured
+import io.restassured.RestAssured.given
+import io.restassured.RestAssured.`when`
 import org.hamcrest.Matchers.equalTo
-import org.hamcrest.Matchers.*
-import kotlin.test.Test
+import org.hamcrest.Matchers.greaterThan
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.notNullValue
 
-
-class TesteBasico {
+class BookingService {
+    private val BASE_URL = "https://restful-booker.herokuapp.com"
 
     fun readJsonFromResources(fileName: String): String {
         return object {}.javaClass.classLoader
@@ -15,26 +19,22 @@ class TesteBasico {
             ?: throw IllegalArgumentException("Arquivo não encontrado: $fileName")
     }
 
-    @Test
-    fun testGetBooking() {
-        baseURI = "https://restful-booker.herokuapp.com"
-
+    fun GetBooking() {
+        RestAssured.baseURI = BASE_URL
         given()
             .header("Accept", "*/*")
-        .`when`()
+            .`when`()
             .get("/booking/")
-        .then()
+            .then()
             .statusCode(200)
             .log().all()
     }
 
-    @Test
-    fun testGetBookingWithId() {
-        baseURI = "https://restful-booker.herokuapp.com"
-
+    fun getBookingWithId(id: String) {
+        RestAssured.baseURI = BASE_URL
         `when`()
-            .get("/booking/124")
-        .then()
+            .get("/booking/${id}")
+            .then()
             .statusCode(200)
             .body("firstname", equalTo("Josh"))
             .body("lastname", equalTo("Allen"))
@@ -42,20 +42,18 @@ class TesteBasico {
             .body("depositpaid", `is`(true))
             .body("bookingdates.checkin", equalTo("2018-01-01"))
             .body("bookingdates.checkout", equalTo("2019-01-01"))
-            .body("additionalneeds", equalTo("superb owls"))
+            .body("additionalneeds", equalTo("super bowls"))
     }
 
-    @Test
-    fun testPostBooking() {
-        baseURI = "https://restful-booker.herokuapp.com"
-
+    fun postBooking() {
+        RestAssured.baseURI = BASE_URL
         given()
             .header("Content-Type", "application/json")
             .header("Accept", "application/json")
             .body(readJsonFromResources("payloads/booking.json"))
-        .`when`()
+            .`when`()
             .post("/booking")
-        .then()
+            .then()
             .statusCode(200)
             .body("bookingid", notNullValue())
             .body("bookingid", greaterThan(0))
