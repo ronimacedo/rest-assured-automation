@@ -23,13 +23,13 @@ class BookingTest {
         bookingService.getBookingWithId("124")
             .then()
             .statusCode(200)
-            .body("firstname", equalTo("John"))
-            .body("lastname", equalTo("Smith"))
+            .body("firstname", equalTo("Josh"))
+            .body("lastname", equalTo("Allen"))
             .body("totalprice", equalTo(111))
             .body("depositpaid", `is`(true))
             .body("bookingdates.checkin", equalTo("2018-01-01"))
             .body("bookingdates.checkout", equalTo("2019-01-01"))
-            .body("additionalneeds", equalTo("Breakfast"))
+            .body("additionalneeds", equalTo("super bowls"))
     }
 
     @Test
