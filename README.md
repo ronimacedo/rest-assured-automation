@@ -126,11 +126,32 @@ fun testPostBooking() {
 - Mandatory response fields
 - Basic business rules
 
-### ▶️ Running Tests Locally
+### 1️⃣ Running Tests Locally
 
-Clean and run tests (recommended)
+Clean and run all tests (recommended)
 ```bash
 mvn clean test
+```
+
+### 2️⃣ Run a specific test class
+
+Executes only one test class.
+```bash
+mvn -Dtest=BookingTest test
+```
+
+### 3️⃣ Run a specific test method from a class
+
+Executes a single test method.
+```bash
+mvn -Dtest=BookingTest#testPostBooking test
+```
+
+### 4️⃣ Run tests by tag (JUnit 5)
+
+Execute tests by tag:
+```bash
+mvn test -Dgroups=contract
 ```
 
 ### 📊 Allure Reports
