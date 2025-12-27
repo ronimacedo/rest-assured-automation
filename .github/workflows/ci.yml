@@ -24,6 +24,14 @@ jobs:
         run: | 
           mvn --version
 
-      - name: Build and run tests
-        run: |
-          mvn -Dtest=BookingTest test
+      - name: Run tests
+        run: mvn clean test
+
+      - name: Generate Allure report
+        run: mvn allure:report
+
+      - name: Upload Allure report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin
