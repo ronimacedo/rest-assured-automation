@@ -4,8 +4,9 @@ import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.greaterThan
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.notNullValue
+import org.junit.jupiter.api.Test
 import service.BookingService
-import kotlin.test.Test
+
 
 class BookingTest {
     private val bookingService = BookingService()

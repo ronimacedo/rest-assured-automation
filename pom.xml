@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- =====================
+         PROJECT INFO
+    ====================== -->
     <groupId>org.example</groupId>
     <artifactId>RestAssuredApi</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <!-- =====================
+         PROPERTIES
+    ====================== -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
     </properties>
 
+    <!-- =====================
+         REPOSITORIES
+    ====================== -->
     <repositories>
         <repository>
             <id>mavenCentral</id>
@@ -21,15 +32,25 @@
         </repository>
     </repositories>
 
+    <!-- =====================
+         BUILD
+    ====================== -->
     <build>
+
         <sourceDirectory>src/main/kotlin</sourceDirectory>
         <testSourceDirectory>src/test/kotlin</testSourceDirectory>
+
         <plugins>
+
+            <!-- =====================
+                 Kotlin Maven Plugin
+            ====================== -->
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <version>2.1.20</version>
                 <executions>
+
                     <execution>
                         <id>compile</id>
                         <phase>compile</phase>
@@ -37,6 +58,7 @@
                             <goal>compile</goal>
                         </goals>
                     </execution>
+
                     <execution>
                         <id>test-compile</id>
                         <phase>test-compile</phase>
@@ -44,16 +66,61 @@
                             <goal>test-compile</goal>
                         </goals>
                     </execution>
+
                 </executions>
             </plugin>
+
+            <!-- =====================
+                 Maven Surefire Plugin
+                 Executa os testes unitários (mvn test)
+                 Integração com Allure
+            ====================== -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>3.0.0</version>
+                <configuration>
+
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>
+                                io.qameta.allure.junitplatform.AllureJunitPlatform
+                            </value>
+                        </property>
+                    </properties>
+
+                    <systemPropertyVariables>
+                        <allure.results.directory>
+                            target/allure-results
+                        </allure.results.directory>
+                    </systemPropertyVariables>
+
+                </configuration>
             </plugin>
+
+            <!-- =====================
+                 Allure Maven Plugin
+                 Geração do relatório:
+                 mvn allure:serve
+            ====================== -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.15.2</version>
+            </plugin>
+
+            <!-- =====================
+                 Maven Failsafe Plugin
+            ====================== -->
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.2</version>
             </plugin>
+
+            <!-- =====================
+                 Exec Maven Plugin
+            ====================== -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -62,52 +129,80 @@
                     <mainClass>MainKt</mainClass>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 
+    <!-- =====================
+         DEPENDENCIES
+    ====================== -->
     <dependencies>
-        <!-- Rest Assured -->
+
+        <!-- =====================
+             Rest Assured
+        ====================== -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>5.3.0</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>json-path</artifactId>
             <version>5.3.0</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- =====================
+             Jackson
+        ====================== -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.15.2</version>
         </dependency>
-        <!-- Hamcrest (para assertivas mais avançadas) -->
+
+        <!-- =====================
+             Hamcrest
+        ====================== -->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
             <version>2.2</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- =====================
+             Allure
+        ====================== -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <version>2.23.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- =====================
+             Kotlin Test
+        ====================== -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test-junit5</artifactId>
-            <version>2.1.20</version>
+            <version>1.9.24</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.10.0</version>
-            <scope>test</scope>
-        </dependency>
+
+        <!-- =====================
+             Kotlin Stdlib
+        ====================== -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
             <version>2.1.20</version>
         </dependency>
+
     </dependencies>
 
 </project>
