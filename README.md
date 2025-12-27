@@ -19,24 +19,26 @@ This project is an **API test automation framework** built with **Kotlin**, **Re
 
 ## 🗂 Project Structure
 
-```src
+
+```text
+src
 ├── main
-│ └── kotlin
-│ ├── config
-│ │ └── BaseApi.kt
-│ └── service
-│ ├── BaseService.kt
-│ └── BookingService.kt
+│   └── kotlin
+│       ├── config
+│       │   └── BaseApi.kt
+│       └── service
+│           ├── BaseService.kt
+│           └── BookingService.kt
 │
 ├── test
-│ └── kotlin
-│ └── test
-│ └── BookingTest.kt
+│   └── kotlin
+│       └── test
+│           └── BookingTest.kt
 │
 └── test
-└── resources
-└── payloads
-└── booking.json
+    └── resources
+        └── payloads
+            └── booking.json
 ```
 
 
@@ -71,13 +73,13 @@ open class BaseService {
 
 A service layer that encapsulates all HTTP interactions with the Booking API, keeping test logic separate from API communication logic.
 
+
 Available methods:
 
-GetBooking() → GET /booking
+- `GetBooking()` → GET `/booking`
+- `getBookingWithId(id)` → GET `/booking/{id}`
+- `postBooking()` → POST `/booking`
 
-getBookingWithId(id) → GET /booking/{id}
-
-postBooking() → POST /booking
 
 ```kotlin
 fun postBooking(): Response =
@@ -119,27 +121,24 @@ fun testPostBooking() {
 ```
 ✔ Validations Performed
 
-HTTP status codes
-JSON structure and content
-Mandatory response fields
-Basic business rules
+- HTTP status codes
+- JSON structure and content
+- Mandatory response fields
+- Basic business rules
 
 ### ▶️ Running Tests Locally
-Run tests
-```kotlin
-mvn clean test
-```
+
 Clean and run tests (recommended)
-```kotlin
+```bash
 mvn clean test
 ```
 
-📊 Allure Reports
-```kotlin
+### 📊 Allure Reports
+```bash
 mvn allure:report
 ```
 View report locally
-```kotlin
+```bash
 mvn allure:serve
 ```
 
@@ -147,14 +146,39 @@ mvn allure:serve
 
 The project includes GitHub Actions CI, which:
 
-Runs tests automatically
+- Runs tests automatically
+- Generates the Allure report
+- Publishes the report to GitHub Pages
 
-Generates the Allure report
 
-Publishes the report to GitHub Pages
+🔗 **Allure Report:** [Click here](https://ronimacedo.github.io/rest-assured-automation/)
 
-```kotlin
-https://ronimacedo.github.io/rest-assured-automation/
-```
+
 
 The report is automatically updated on every push to the master branch.
+
+### ⚙️ CI Pipeline (GitHub Actions)
+
+Main workflow steps:
+
+```yaml
+- name: Run tests
+  run: mvn clean test
+
+- name: Generate Allure report
+  run: mvn allure:report
+
+- name: Deploy to GitHub Pages
+  uses: peaceiris/actions-gh-pages@v4
+```
+
+### 📌 Best Practices Applied
+
+- Clear separation of responsibilities (config / service / test)
+- Usage of design patterns (Singleton, Service Layer, Base Class)
+- Code reuse
+- Externalized payloads
+- Independent and maintainable tests
+- Automated reporting
+- CI/CD integration
+- Generated files excluded from version control
